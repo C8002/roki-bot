@@ -20,10 +20,12 @@ bot.on("message",function(message) {
 				message.channel.sendMessage("Pong!");
 		break;
 		case "game":
+			if(message.member.roles.find("name", "Admin"){
 				bot.user.setPresence({ status: 'online', game: { name: args.join(" ").replace("game","") } })
 				var embed = new Discord.RichEmbed()
 					.setDescription("Property changed succesfully.");
 					message.channel.sendEmbed(embed);
+}
 		break;
 		case "help":
 		var embed = new Discord.RichEmbed()
