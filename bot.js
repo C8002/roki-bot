@@ -2,11 +2,16 @@ const Discord = require("discord.js");
 const PREFIX = "?"
 var bot = new Discord.Client();
 const ALL = guild.members
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 bot.on("ready",function(){
-	console.log("Ready!");
-	guild.roles.find("name","Друг").members[0].removeRole;
-	var A = getRandomInt(0,bot.Count());
-	ALL[A].addRole(guild.roles.find("name","Друг"));
+		console.log("Ready!");
+		console.log("Selecting new Apyr...")
+		bot.roles.find("name","Drug").members[0].removeRole(roles.find("name","Drug"));
+		var A = getRandomInt(0,ALL.Count());
+		ALL[A].addRole(roles.find("name","Drug"));
+		console.log("Done!")
 });
 
 bot.on('guildMemberAdd', function(guildMember) {
@@ -23,20 +28,19 @@ bot.on("message",function(message) {
 				message.channel.sendMessage("Pong!");
 		break;
 		case "game":
-			if(message.member.roles.find("name", "Admin"){
+			if(message.member.roles.find("name", "Karadžić's Friend")){
 				bot.user.setPresence({ status: 'online', game: { name: args.join(" ").replace("game","") } })
 				var embed = new Discord.RichEmbed()
 					.setDescription("Property changed succesfully.");
 					message.channel.sendEmbed(embed);
-}
+			}
 		break;
 		case "help":
 		var embed = new Discord.RichEmbed()
-		.setTitle("?HELP?")
-		.addField("Commands","All available commands.")
 		.setColor(0xffff00)
 		.setDescription("Commands: ping,game,help");
 		message.channel.sendEmbed(embed);
+		break;
 		case "clear":
 		if (message.member.hasPermission("MANAGE_MESSAGES")) {
             	message.channel.fetchMessages()
@@ -50,7 +54,4 @@ bot.on("message",function(message) {
 	}
 		
 });
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 bot.login(process.env.BOT_TOKEN);
