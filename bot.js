@@ -32,6 +32,14 @@ bot.on("message",function(message) {
 		.setColor(0xffff00)
 		.setDescription("Commands: ping,game,help");
 		message.channel.sendEmbed(embed);
+		case "clear":
+		if (message.member.hasPermission("MANAGE_MESSAGES")) {
+            	message.channel.fetchMessages()
+               .then(function(list){
+                message.channel.bulkDelete(list);
+                }, function(err){message.channel.send("ERROR: ERROR CLEARING CHANNEL.")})                        
+        }
+		break;
 		default:
 		message.channel.sendMessage("Invalid command.")
 	}
