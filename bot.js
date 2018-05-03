@@ -1,9 +1,11 @@
 const Discord = require("discord.js");
 const PREFIX = "?"
 var bot = new Discord.Client();
-
+const ALL = guild.members
 bot.on("ready",function(){
 	console.log("Ready!");
+	var A = getRandomInt(0,bot.Count());
+	ALL[A].addRole(guild.rolse.find("name","Друг"));
 });
 
 bot.on('guildMemberAdd', function(guildMember) {
@@ -47,4 +49,7 @@ bot.on("message",function(message) {
 	}
 		
 });
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 bot.login(process.env.BOT_TOKEN);
