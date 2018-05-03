@@ -4,8 +4,9 @@ var bot = new Discord.Client();
 const ALL = guild.members
 bot.on("ready",function(){
 	console.log("Ready!");
+	var B = guild.roles.find("name","Друг").members[0].removeRole;
 	var A = getRandomInt(0,bot.Count());
-	ALL[A].addRole(guild.rolse.find("name","Друг"));
+	ALL[A].addRole(guild.roles.find("name","Друг"));
 });
 
 bot.on('guildMemberAdd', function(guildMember) {
