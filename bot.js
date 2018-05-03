@@ -37,7 +37,7 @@ bot.on("message",function(message) {
             	message.channel.fetchMessages()
                .then(function(list){
                 message.channel.bulkDelete(list);
-                }, function(err){message.channel.send("ERROR: ERROR CLEARING CHANNEL.")})                        
+                }, function(err){message.channel.send("There was an error while attempting to clear the channel.")})                        
         }
 		break;
 		default:
