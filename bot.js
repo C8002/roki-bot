@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const PREFIX = "?"
 var bot = new Discord.Client();
-const ALL = guild.members
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
