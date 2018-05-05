@@ -6,12 +6,10 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 bot.on("ready",function(){
-		console.log("Ready!");
-		console.log("Selecting new Apyr...")
-		bot.roles.find("name","Drug").members[0].removeRole(roles.find("name","Drug"));
-		var A = getRandomInt(0,ALL.Count());
-		ALL[A].addRole(roles.find("name","Drug"));
-		console.log("Done!")
+    console.log("Ready!");
+    bot.channels.get("441660639400820746").sendMessage("?newdrug");
+    //bot.channels.get("441660639400820746").sendMessage("?newdrug");
+    //console.log("Users online:" & GUILD.memberCount);
 });
 
 bot.on('guildMemberAdd', function(guildMember) {
@@ -19,9 +17,8 @@ bot.on('guildMemberAdd', function(guildMember) {
 });
 
 bot.on("message",function(message) {
-	if(message.author.equals(bot.user)) return;
 	if(!message.content.startsWith(PREFIX)) return;
-	
+    var ALL = message.guild.members;
 	var args = message.content.substring(PREFIX.length).split(" ");
 	switch (args[0].toLowerCase()){
 		case "ping":
@@ -29,7 +26,7 @@ bot.on("message",function(message) {
 		break;
 		case "game":
 			if(message.member.roles.find("name", "Karadžić's Friend")){
-				bot.user.setPresence({ status: 'online', game: { name: args.join(" ").replace("game","") } })
+				bot.user.setPresence({ status: 'online', game: { name: args.join(" ").replace("game","") } });
 				var embed = new Discord.RichEmbed()
 					.setDescription("Property changed succesfully.");
 					message.channel.sendEmbed(embed);
@@ -49,8 +46,17 @@ bot.on("message",function(message) {
                 }, function(err){message.channel.send("There was an error while attempting to clear the channel.")})                        
         }
 		break;
+        case "newdrug":
+                ALL.forEach(function (element) {
+                    element.removeRole(message.guild.roles.find("name", "Drug"));
+                });
+            ALL.random().addRole(message.member.guild.roles.find("name","Drug"));
+            break;
+        case "terminate":
+            bot.destroy();
+            break;
 		default:
-		message.channel.sendMessage("Invalid command.")
+		message.channel.sendMessage("Invalid command.");
 	}
 		
 });
