@@ -13,7 +13,7 @@ bot.on("ready",function(){
 });
 
 bot.on('guildMemberAdd', function(guildMember) {
-   guildMember.addRole(guild.roles.find("name","Young Kebab Remover"));
+   guildMember.addRole(guildMember.guild.roles.find("name","Young Kebab Remover"));
 });
 
 bot.on("message",function(message) {
