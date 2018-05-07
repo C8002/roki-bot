@@ -36,6 +36,12 @@ bot.on("ready",function(){
 bot.on('guildMemberAdd', function(guildMember) {
    guildMember.addRole(guild.roles.find("name","Young Kebab Remover"));
 });
+function SendError(channel, reason, help) {
+    var embed = new Discord.RichEmbed()
+        .setTitle(reason)
+        .setDescription(help);
+    channel.sendEmbed(embed);
+}
 
 bot.on("message",function(message) {
 	if(!message.content.startsWith(PREFIX)) return;
@@ -48,13 +54,15 @@ bot.on("message",function(message) {
             console.log("[Replied]");
 		break;
 		case "game":
-			if(message.member.roles.find("name", "Karadžić's Friend")){
-				bot.user.setPresence({ status: 'online', game: { name: args.join(" ").replace("game","") } });
-				var embed = new Discord.RichEmbed()
-					.setDescription("Property changed succesfully.");
+            if (message.member.roles.find("name", "Karadžić's Friend")) {
+                bot.user.setPresence({ status: 'online', game: { name: args.join(" ").replace("game", "") } });
+                var embed = new Discord.RichEmbed()
+                    .setDescription("Property changed succesfully.");
                 message.channel.sendEmbed(embed);
                 console.log("[Replied]");
-			}
+            } else {
+                SendError(message.channel, "Missing permissions", "You do not have the permissions needed to execute this command.");
+            }
 		break;
 		case "help":
             var embed = new Discord.RichEmbed()
@@ -65,13 +73,16 @@ bot.on("message",function(message) {
             console.log("[Replied]");
 		break;
 		case "clear":
-		if (message.member.hasPermission("MANAGE_MESSAGES")) {
-            	message.channel.fetchMessages()
-               .then(function(list){
-                message.channel.bulkDelete(list);
-                }, function (err) { message.channel.send("There was an error while attempting to clear the channel.") })       
-            console.log("[Replied]");
-        }
+            if (message.member.hasPermission("MANAGE_MESSAGES")) {
+                message.channel.fetchMessages()
+                    .then(function (list) {
+                        message.channel.bulkDelete(list);
+                    }, function (err) { message.channel.send("There was an error while attempting to clear the channel.") })
+                console.log("[Replied]");
+
+            } else {
+                SendError(message.channel, "Missing permissions", "You do not have the permissions needed to execute this command.");
+            }
 		break;
         case "newdrug":
             if (message.member.roles.find("name", "Karadžić's Friend") || message.member.nickname == "Roki") {
@@ -81,10 +92,7 @@ bot.on("message",function(message) {
                 });
                 ALL.random().addRole(message.member.guild.roles.find("name", "Drug"));
             } else {
-                var embed = new Discord.RichEmbed()
-                    .setTitle("Missing permissions.")
-                    .setDescription("You do not have the permissions needed to execute this command.");
-                message.channel.sendEmbed(embed);
+                SendError(message.channel, "Missing permissions", "You do not have the permissions needed to execute this command.");
             }
             console.log("[New Drug set.]");
             break;
@@ -93,10 +101,7 @@ bot.on("message",function(message) {
                 message.delete();
                 bot.destroy();
             } else {
-                var embed = new Discord.RichEmbed()
-                    .setTitle("Missing permissions.")
-                    .setDescription("You do not have the permissions needed to execute this command.");
-                message.channel.sendEmbed(embed);
+                SendError(message.channel, "Missing permissions", "You do not have the permissions needed to execute this command.");
             }
             console.log("[Replied]");
             break;
@@ -134,20 +139,17 @@ bot.on("message",function(message) {
             console.log("[Replied]");
             break;
         case "tell":
-            if (args[1] || args[2] || message.mentions.members.first()) {
+            if (args[1] && args[2] && message.mentions.members.first()) {
                 var embed = new Discord.RichEmbed()
                     .setTitle(message.member.displayName + " says " + message.mentions.members.first().displayName + "'s a " + args.join(" ").replace(args[0], "").replace(args[1], ""));
                 message.channel.sendEmbed(embed);
             } else {
-                var embed = new Discord.RichEmbed()
-                    .setTitle("Too few arguments.")
-                    .setDescription("Syntax: ?tell [mention] [object]");
-                message.channel.sendEmbed(embed);
+                SendError(message.channel, "Too few arguments / No mention found", "Syntax: ?tell [mention] [object]");
             }
             console.log("[Replied]");
             break;
 		default:
-		message.channel.sendMessage("Invalid command.");
+            SendError(message.channel, "Command not found", "You did not enter a recognizable command.");
 	}
 });
 bot.login(process.env.BOT_TOKEN);
