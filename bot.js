@@ -68,7 +68,7 @@ bot.on("message",function(message) {
             var embed = new Discord.RichEmbed()
                 .setColor(0xffff00)
                 .setTitle("Help")
-                .setDescription("Commands: \n ?ping \n ?game \n ?help \n ?clear \n ?newdrug \n ?terminate \n ?randomroki \n ?ask \n ?rate \n ?tell");
+                .setDescription("Commands: \n ?ping \n ?game \n ?help \n ?clear \n ?newdrug \n ?terminate \n ?randomroki \n ?ask \n ?rate \n ?tell \n ?flip \n ?decide");
             message.channel.sendEmbed(embed);
             console.log("[Replied]");
 		break;
@@ -147,6 +147,40 @@ bot.on("message",function(message) {
                 SendError(message.channel, "Too few arguments / No mention found", "Syntax: ?tell [mention] [object]");
             }
             console.log("[Replied]");
+            break;
+        case "flip":
+            let ran = getRandomInt(1, 2);
+            if (ran == 1) {
+                var embed = new Discord.RichEmbed()
+                    .setTitle("You roll:")
+                    .setDescription("Heads!");
+                message.channel.sendEmbed(embed);
+            } else {
+                var embed = new Discord.RichEmbed()
+                    .setTitle("You roll:")
+                    .setDescription("Tails!");
+                message.channel.sendEmbed(embed);
+            }
+            console.log("[Dice rolled.]")
+            break;
+        case "decide":
+            if (args[1] && args[2]) {
+                let ran = getRandomInt(0, 1);
+                if (ran == 0) {
+                    var embed = new Discord.RichEmbed()
+                        .setTitle("Roki has chosen...")
+                    .setDescription(args[1]);
+                    message.channel.sendEmbed(embed);
+                } else {
+                    var embed = new Discord.RichEmbed()
+                        .setTitle("Roki has chosen...")
+                    .setDescription(args[2]);
+                    message.channel.sendEmbed(embed);
+                }
+                console.log("[Decision made.]");
+            } else {
+                SendError(message.channel, "Too few arguments", "Syntax: ?decide [option1] [option2]");
+            }
             break;
 		default:
             SendError(message.channel, "Command not found", "You did not enter a recognizable command.");
