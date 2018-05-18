@@ -26,7 +26,7 @@ function getByValue(arr, value) {
 }
 bot.on("ready",function(){
     console.log("Ready!");
-    bot.channels.get("441660639400820746").sendMessage("?newdrug");
+    bot.channels.get("441660639400820746").sendMessage("/newdrug");
     bot.channels.get("441660639400820746").fetchMessages()
         .then(function (list) {
             bot.channels.get("441660639400820746").bulkDelete(list);
@@ -68,7 +68,7 @@ bot.on("message",function(message) {
             var embed = new Discord.RichEmbed()
                 .setColor(0xffff00)
                 .setTitle("Help")
-                .setDescription("Commands: \n ?ping \n ?game \n ?help \n ?clear \n ?newdrug \n ?terminate \n ?randomroki \n ?ask \n ?rate \n ?tell \n ?flip \n ?decide");
+                .setDescription("Prefix:  / \n Commands: \n ping \n game \n help \n clear \n newdrug \n terminate \n randomroki \n ask \n rate \n tell \n flip \n decide \n kill \n sadlife");
             message.channel.sendEmbed(embed);
             console.log("[Replied]");
 		break;
@@ -181,6 +181,26 @@ bot.on("message",function(message) {
             } else {
                 SendError(message.channel, "Too few arguments", "Syntax: ?decide [option1] [option2]");
             }
+            break;
+        case "getvid":
+            if (args[1]) {
+                var embed = new Discord().RichEmbed()
+                    .setTitle("URL to video download:")
+                    .setDescription("http://convert2mp3.net/share.php?url=" + args[1]);
+                message.channel.sendEmbed(embed);
+            } else {
+                SendError(message.channel, "Too few arguments", "Syntax: ?getvid [YouTube-URL]");
+            }
+            break;
+        case "kill":
+            var embed = new Discord.RichEmbed()
+                .setTitle(message.member.displayName + " bid farewell, cruel world!");
+            message.channel.sendEmbed(embed);
+            break;
+        case "sadlife":
+            var embed = new Discord.RichEmbed()
+                .setTitle(":(");
+            message.channel.sendEmbed(embed);
             break;
 		default:
             SendError(message.channel, "Command not found", "You did not enter a recognizable command.");
